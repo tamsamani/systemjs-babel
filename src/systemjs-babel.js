@@ -57,6 +57,9 @@ var registerRegEx = /^\s*(\/\*[^\*]*(\*(?!\/)[^\*]*)*\*\/|\s*\/\/[^\n]*)*\s*Syst
 
 var fetch = systemJSPrototype.fetch;
 systemJSPrototype.fetch = function (url, options) {
+
+  const extendedTransformOptions = this.babelOptions || global.System.babelOptions || {};
+
   return fetch(url, options)
   .then(function (res) {
     if (!res.ok || jsonCssWasmContentType.test(res.headers.get('content-type')))
@@ -68,6 +71,7 @@ systemJSPrototype.fetch = function (url, options) {
         return new Response(new Blob([source], { type: 'application/javascript' }));
 
       return new Promise((resolve, reject) => {
+
         babel.transform(source, {
           filename: url,
           sourceMaps: 'inline',
@@ -78,7 +82,8 @@ systemJSPrototype.fetch = function (url, options) {
             plugins: stage3Syntax,
             errorRecovery: true
           },
-          plugins: jtsxUrls.test(url) ? tsxUrls.test(url) ? tsxPlugins : jsxUrls.test(url) ? jsxPlugins : tsPlugins : plugins
+          plugins: jtsxUrls.test(url) ? tsxUrls.test(url) ? tsxPlugins : jsxUrls.test(url) ? jsxPlugins : tsPlugins : plugins,
+          overrides : [extendedTransformOptions]
         }, function (err, result) {
           if (err)
             return reject(err);
