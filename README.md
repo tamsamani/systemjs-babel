@@ -11,6 +11,15 @@ Specifically does not provide configuration hooks, because no type checking is p
 
 _If a syntax or feature is supported in any browser, it should be supported here but polyfills are a non-goal. Feature requests and PRs welcome to improve support._
 
+## Notes
+
+> this is a forked repo from the original repo [systemjs/systemjs-babel](https://github.com/systemjs/systemjs-babel) 
+> the propose for this fork is testing extending babel configuration via SystemJS core.
+
+#### Why? What's!
+
+I have forked this repo only for make a costumization/configuration the systemjs babelOptions. because I get limited when trying developing using `systemjs` in browser transformation develeopment.
+
 ## Usage
 
 ```
